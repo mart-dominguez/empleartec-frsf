@@ -11,7 +11,7 @@ import ar.edu.utn.frsf.empleartec.gp.logica.ClienteEJBLocal;
 import ar.edu.utn.frsf.empleartec.gp.modelo.Cliente;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.websocket.server.PathParam;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
@@ -28,9 +28,9 @@ public class ClienteRest {
     private ClienteEJBLocal cliEjb;
     
     @GET
-    @Path("{idCliente}")
+    @Path("/buscar/{idCliente}")
     public String buscarCliente(@PathParam("idCliente") String cliId){
-        
+        System.out.println(" que vino de parametro "+cliId);
         Cliente unCliente = cliEjb.findById(Integer.valueOf(cliId));
         return unCliente.getNombre()+" - "+unCliente.getCorreo();
     }
