@@ -28,7 +28,7 @@ public class ClienteRest {
     private ClienteEJBLocal cliEjb;
     
     @GET
-    @Path("/buscar/{idCliente}")
+    @Path("{idCliente}")
     public String buscarCliente(@PathParam("idCliente") String cliId){
         System.out.println(" que vino de parametro "+cliId);
         Cliente unCliente = cliEjb.findById(Integer.valueOf(cliId));

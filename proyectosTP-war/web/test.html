@@ -12,15 +12,37 @@ and open the template in the editor.
 	<script src="jquery-1.11.1.min.js"></script>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div>Seleccionar la operacion</div>
+        <div>
+            <button id="btnConsultar">Consultar</button>
+            <button id="btnBorrar">Borrar</button>
+        </div>
+        <div id="resultado"></div>
         <script>
-            $.ajax({
-                type: "GET",
-                url: "rs/cliente/1",
-                success: function (data, textStatus, jqXHR) {
-                    alert('hola'+data);
+            $("#btnConsultar").click(
+                function(){
+                    $.ajax({
+                        type: "GET",
+                        url: "rs/cliente/1",
+                        success: function (data, textStatus, jqXHR) {
+                            $("#resultado").html("Resultado"+data);
+                        }
+                    });            
                 }
-            });            
+            );
+
+            $("#btnBorrar").click(
+                function(){
+                    $.ajax({
+                        type: "DELETE",
+                        url: "rs/cliente/1",
+                        success: function (data, textStatus, jqXHR) {
+                            $("#resultado").html("Resultado"+data);
+                        }
+                    });            
+                }
+            );
+
         </script>
     </body>
 </html>
