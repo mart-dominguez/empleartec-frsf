@@ -85,6 +85,11 @@ public class Cliente {
     public void setProyectos(List<Proyecto> proyectos) {
         this.proyectos = proyectos;
     }
+
+    @Override
+    public String toString() {
+        return this.id+" / "+this.nombre + " - "+this.correo;
+    }
     
     
 }

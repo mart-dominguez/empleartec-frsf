@@ -16,47 +16,210 @@ and open the template in the editor.
 	<script src="jquery-1.11.1.min.js"></script>
     </head>
     <body>
-        <div>Seleccionar la operacion</div>
-        <div>
-            <button id="btnConsultar">Consultar</button>
-            <button id="btnBorrar">Borrar</button>
+        <div class="container-fluid">
+            <div class="row">
+                  <div class="col-xs-12 col-md-12">
+                      <h1>Sistema de Gestion de Clientes</h1>
+                  </div>
+            </div>
+            <div class="row">
+                  <div class="col-xs-12 col-md-12">
+                      <div class="alert alert-warning fade in" role="alert" style="display: none" id="errorAlert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Cerrar</span></button>
+                        <strong>Debe seleccionar una fila para realizar la accion</strong>.
+                    </div>
+                  </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Lista de Clientes</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover" id="tablaResultado">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Correo Electronico</th>
+                                <th>Proyectos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-2 col-md-2">
+                            <button id="btnConsultar"  class="btn btn-success">Editar</button>
+                        </div>
+                        <div class="col-xs-2 col-md-2">
+                            <button id="btnBorrar" class="btn btn-danger">Borrar</button>                            
+                        </div>
+                        <div class="col-xs-2 col-md-2">
+                            <button id="btnNuevoCli" class="btn btn-primary" >Nuevo</button>
+                        </div>
+                        <div class="col-xs-6 col-md-6"></div>                        
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="resultado"></div>
+        
+        
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalCliente" tabindex="-1" role="dialog" aria-labelledby="modalClienteLbl" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                        <h4 class="modal-title" id="modalClienteLbl">Datos del cliente</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" id="frmDatosCli" name="frmDatosCli">
+                            <div class="form-group">
+                                <label for="nombreCli">Nombre</label>
+                                <input type="text" class="form-control" placeholder="nombre del cliente"  id="nombreCli"   name="nombre"  >
+                            </div>
+                            <div class="form-group">
+                                <label for="correoCliente">Email</label>
+                                <input type="email" class="form-control" id="correoCliente"    name="correo"  placeholder="Ingrese email">
+                            </div>
+                            <input type="hidden" id="idCli" name="id" value="0" class="form-control" />
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="btnGuardarCliente">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <script>
+            var resultados;
+            // funcion mia para renderizar una tabla
+            $.fn.serializeObject = function(){
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function() {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+                return o;
+            };
+            
+            function cargarTabla(){
+                // luego de aplicar independientemente si es alta o modificacion actualizo la tabla HTML
+                $("#tablaResultado > tbody").html("");
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",                        
+                    url: "rs/cliente/all",
+                        success: function(data, textStatus, jqXHR) {
+                            resultados = data;
+                            miRenderTabla ();
+                        }
+                }); 
+            }
+            
+            function miRenderTabla () { 
+                console.log(resultados);
+                $.each(resultados,function(indice,elemento){
+                    $('#tablaResultado tbody').append("<tr><td><input type=\"radio\" name=\"radioFila\" id=\"radioFila\" value=\""+indice+"\"/><td>"+elemento.id+"</td><td>"+elemento.nombre+"</td><td>"+elemento.correo+"</td><td>"+elemento.proyectos.length+"</td></tr>");
+                });
+            }
+            
+            $("#btnNuevoCli").click(
+                    function(){
+                        document.getElementById("frmDatosCli").reset();
+                        $("#idCli").val(0);
+                        $('#modalCliente').modal('show');                            
+                    }                    
+            );
+    
+            $("#btnGuardarCliente").click(
+                function(){
+                        if($("#idCli").val()>0){
+                            // modificar actual
+                            $.ajax({
+                                type: "PUT",
+                                contentType: "application/json",                                
+                                data: JSON.stringify($("#frmDatosCli").serializeObject()),
+                                url: "rs/cliente/",
+                                success: function (data, textStatus, jqXHR) {
+                                    console.log("LISTO");
+                                    console.log(data);     
+                                    $('#modalCliente').modal('hide');
+                                    cargarTabla();
+                                }
+                            });             
+                        }else{
+                            // INSERTAR NUEVO
+                            $.ajax({
+                                type: "POST",
+                                data: {nombre: $("#nombreCli").val(),correo: $("#correoCliente").val()},
+                                url: "rs/cliente/",
+                                success: function (data, textStatus, jqXHR) {
+                                    console.log("LISTO");
+                                    console.log(data);
+                                    $('#modalCliente').modal('hide');
+                                    cargarTabla();
+                                }
+                            });           
+                        }
+                    }
+            );
+            
             $("#btnConsultar").click(
                 function(){
-                    $.ajax({
-                        type: "GET",
-                        url: "rs/cliente/1",
-                        success: function (data, textStatus, jqXHR) {
-                            $("#resultado").html("Resultado"+data);
-                        }
-                    });            
+                    var idx = $("input[name=radioFila]:checked").val();
+                    if(idx>0){
+                        $.ajax({
+                            type: "GET",
+                            url: "rs/cliente/"+resultados[idx].id,
+                            success: function (data, textStatus, jqXHR) {
+                                $("#nombreCli").val(resultados[idx].nombre);
+                                $("#idCli").val(resultados[idx].id);                            
+                                $("#correoCliente").val(resultados[idx].correo);
+                                $('#modalCliente').modal('show');                            
+                            }
+                        });            
+                    }else{
+                         $('#errorAlert').show();
+                    }
+                        
                 }
             );
 
             $("#btnBorrar").click(
-                function(){
-                    $.ajax({
-                        type: "DELETE",
-                        url: "rs/cliente/1",
-                        success: function (data, textStatus, jqXHR) {
-                            $("#resultado").html("Resultado"+data);
-                        }
-                    });            
-                }
-            );
+                function(){                    
+                    var idx = $("input[name=radioFila]:checked").val();
+                    if(idx>0){
+                        $.ajax({
+                            type: "DELETE",
+                            url: "rs/cliente/"+resultados[idx].id,
+                            success: function (data, textStatus, jqXHR) {
+                                cargarTabla();
+                            }
+                        });            
+                    }else{
+                         $('#errorAlert').show();
+                    }
+                });
             
             $(document).ready(function() {
-                $.ajax({
-                        type: "DELETE",
-                        url: "rs/cliente/all",
-                        success: function (data, textStatus, jqXHR) {
-                            $("#resultado").html("Resultado"+data);
-                        }
-                    });      
-            };
+                cargarTabla();      
+            });
         </script>
     <script src="js/bootstrap.min.js"></script>
     </body>
 </html>
+
