@@ -42,9 +42,16 @@ public class ServletTest1 extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             Cliente cli1 = new Cliente();
             cli1.setNombre("Martin 1");
-            cli1.setCorreo("martin@mail.com");
-            
+            cli1.setCorreo("martin@mail.com");           
             clienteEJB.addCliente(cli1);
+            Cliente cli2 = new Cliente();
+            cli2.setNombre("Maria 2");
+            cli2.setCorreo("maria@yahoo.com");
+            clienteEJB.addCliente(cli2);
+            Cliente cli3 = new Cliente();
+            cli3.setNombre("Laura 3");
+            cli3.setCorreo("laurita@frsf.utn.edu.ar");
+            clienteEJB.addCliente(cli3);
             
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -53,7 +60,8 @@ public class ServletTest1 extends HttpServlet {
             out.println("<title>Servlet ServletTest1</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Cliente Agregado </h1>");
+            out.println("<h1>Sistema Iniciado</h1>");
+            out.println("<a href=\"test.html\">Ir a la pagina inicial</a>");
             out.println("</body>");
             out.println("</html>");
         }

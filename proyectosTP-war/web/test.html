@@ -28,6 +28,12 @@ and open the template in the editor.
                         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Cerrar</span></button>
                         <strong>Debe seleccionar una fila para realizar la accion</strong>.
                     </div>
+                      
+                    <div class="alert alert-danger fade in" role="alert" style="display: none" id="alertCargando">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span>
+                        <span class="sr-only">Close</span></button>
+                        <h4>Cargando.....</h4>
+                    </div>                      
                   </div>
             </div>
             <div class="panel panel-info">
@@ -135,6 +141,7 @@ and open the template in the editor.
                 $.each(resultados,function(indice,elemento){
                     $('#tablaResultado tbody').append("<tr><td><input type=\"radio\" name=\"radioFila\" id=\"radioFila\" value=\""+indice+"\"/><td>"+elemento.id+"</td><td>"+elemento.nombre+"</td><td>"+elemento.correo+"</td><td>"+elemento.proyectos.length+"</td></tr>");
                 });
+                $('#alertCargando').hide();
             }
             
             $("#btnNuevoCli").click(
@@ -211,11 +218,12 @@ and open the template in the editor.
                             }
                         });            
                     }else{
-                         $('#errorAlert').show();
+                         $('#errorAlert').show();                         
                     }
                 });
             
             $(document).ready(function() {
+                $('#alertCargando').show();
                 cargarTabla();      
             });
         </script>
