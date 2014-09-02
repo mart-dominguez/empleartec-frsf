@@ -7,6 +7,7 @@
 package ar.edu.utn.frsf.empleartec.gp.logica;
 
 import ar.edu.utn.frsf.empleartec.gp.modelo.Cliente;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -18,4 +19,6 @@ public interface ClienteEJBLocal {
     public Cliente findById(int id);
     public void addCliente(Cliente cli);
     public void deleteCliente(Cliente cli);
+    public Cliente updateCliente(Cliente cli);
+    public List<Cliente> listAll();
 }

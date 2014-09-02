@@ -7,6 +7,7 @@
 package ar.edu.utn.frsf.empleartec.gp.logica;
 
 import ar.edu.utn.frsf.empleartec.gp.modelo.Cliente;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,5 +33,16 @@ public class ClienteEJB implements ClienteEJBLocal {
        public void deleteCliente(Cliente cli){
         Cliente aux = em.find(Cliente.class, cli.getId());
         em.remove(aux);
+    }
+
+    @Override
+    public Cliente updateCliente(Cliente cli) {
+        if(cli.getId()>0) return em.merge(cli);
+        return null;
+    }
+
+    @Override
+    public List<Cliente> listAll() {
+        return em.createQuery("SELECT c FROM Cliente c").getResultList();
     }
 }

@@ -4,11 +4,15 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clientes</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 	<script src="jquery-1.11.1.min.js"></script>
     </head>
     <body>
@@ -42,7 +46,17 @@ and open the template in the editor.
                     });            
                 }
             );
-
+            
+            $(document).ready(function() {
+                $.ajax({
+                        type: "DELETE",
+                        url: "rs/cliente/all",
+                        success: function (data, textStatus, jqXHR) {
+                            $("#resultado").html("Resultado"+data);
+                        }
+                    });      
+            };
         </script>
+    <script src="js/bootstrap.min.js"></script>
     </body>
 </html>
