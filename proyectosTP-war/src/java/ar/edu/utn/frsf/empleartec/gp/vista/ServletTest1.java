@@ -61,7 +61,8 @@ public class ServletTest1 extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Sistema Iniciado</h1>");
-            out.println("<a href=\"test.html\">Ir a la pagina inicial</a>");
+            out.println("<a href=\"test.html\">Ir a la pagina inicial</a><br/>");
+            out.println("<a href=\"faces/proyecto.xhtml\">Gestion de Proyectos</a>");
             out.println("</body>");
             out.println("</html>");
         }

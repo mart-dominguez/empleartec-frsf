@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                                xmlns:pt="http://java.sun.com/jsf/passthrough"
+                template="./plantilla1.xhtml">
+
+    <ui:define name="titulo">
+        Alta de Proyectos
+    </ui:define>
+
+    <ui:define name="top">
+        top
+    </ui:define>
+
+    <ui:define name="left">
+        left
+    </ui:define>
+
+    <ui:define name="content">
+        <div><span><ui:include src="proyecto.alta.xhtml" /></span>
+            <span>
+                <ui:include src="proyecto.lista.xhtml" /></span></div>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>
