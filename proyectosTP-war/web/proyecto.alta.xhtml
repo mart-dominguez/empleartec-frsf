@@ -14,8 +14,8 @@
                 <f:convertDateTime pattern="dd/MM/yyyy" />
             </h:inputText>
         </div>
-        <div><h:inputText id="txtFechaFinEstimada" value="#{pryCtrl.proyecto.fechaFinEstimada}" disabled="#{empty pryCtrl.proyecto}" >
-                <f:convertDateTime pattern="dd/MM/yyyy" />
+        <div><h:inputText id="txtFechaFinEstimada" value="#{pryCtrl.proyecto.fechaFinEstimada}" disabled="#{empty pryCtrl.proyecto}" converterMessage="Fecha no valida" >
+                <f:convertDateTime pattern="dd/MM/yyyy"  />
             </h:inputText>
         </div>
         <div><h:inputText id="txtCosto" required="true" value="#{pryCtrl.proyecto.costo}" disabled="#{empty pryCtrl.proyecto}" >
@@ -24,7 +24,7 @@
             </h:inputText>
         </div>
         
-        <div><h:commandButton value="GUARDAR ! " action="#{pryCtrl.guardar()}" id="txtIdProyecto" disabled="#{empty pryCtrl.proyecto}"  /></div>
+        <div><h:commandButton value="GUARDAR ! " action="#{pryCtrl.guardar()}" id="txtIdProyecto" disabled="#{empty pryCtrl.proyecto}" rendered="#{pryCtrl.puedeGuardar}"   /></div>
     </h:form>
 </ui:composition>
 </body>

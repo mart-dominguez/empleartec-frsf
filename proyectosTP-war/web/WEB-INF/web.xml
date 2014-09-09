@@ -21,4 +21,27 @@
     <welcome-file-list>
         <welcome-file>testCliente</welcome-file>
     </welcome-file-list>
+    
+    <security-constraint>
+        <display-name>todo</display-name>
+        <web-resource-collection>
+            <web-resource-name>paginasJSF</web-resource-name>
+            <description/>
+            <url-pattern>/faces/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>valido</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>testrealm</realm-name>
+    </login-config>
+    
+    <security-role>
+        <description/>
+        <role-name>valido</role-name>
+    </security-role>
 </web-app>

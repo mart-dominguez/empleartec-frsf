@@ -12,6 +12,7 @@ import ar.edu.utn.frsf.empleartec.gp.modelo.Proyecto;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -23,6 +24,9 @@ import javax.inject.Named;
 @SessionScoped
 public class ProyectoController implements Serializable{
     private Consultoria proyecto;
+    
+    @Inject
+    FacesContext ctx;
     
     @Inject
     private ProyectoRN proyRN;
@@ -56,5 +60,10 @@ public class ProyectoController implements Serializable{
      */
     public void setProyecto(Consultoria proyecto) {
         this.proyecto = proyecto;
+    }
+    
+    public boolean puedeGuardar(){
+        //ctx.getExternalContext().getUserPrincipal().getName()
+        return ctx.getExternalContext().isUserInRole("GRUP1");
     }
 }
