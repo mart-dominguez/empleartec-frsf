@@ -15,6 +15,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -25,8 +26,7 @@ import javax.inject.Named;
 public class ProyectoController implements Serializable{
     private Consultoria proyecto;
     
-    @Inject
-    FacesContext ctx;
+    @Inject HttpServletRequest req;
     
     @Inject
     private ProyectoRN proyRN;
@@ -62,8 +62,8 @@ public class ProyectoController implements Serializable{
         this.proyecto = proyecto;
     }
     
-    public boolean puedeGuardar(){
+    public boolean getPuedeGuardar(){
         //ctx.getExternalContext().getUserPrincipal().getName()
-        return ctx.getExternalContext().isUserInRole("GRUP1");
+        return req.isUserInRole("role2");
     }
 }
